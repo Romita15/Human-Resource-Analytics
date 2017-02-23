@@ -1,8 +1,7 @@
 # the below lines of code give reference for all the categories
-contrasts(df.HR$sales) #reference is accounting
 contrasts(df.HR$promotion_last_5years)
 contrasts(df.HR$Work_accident)
-contrasts(df.HR$salary)
+
 
 #get the number of rows in the dataset
 rowsize <- nrow(df.HR) 
@@ -17,9 +16,11 @@ test <- df.HR[ - sampledData, ]
 
 #run logistic regression
 model_logit <- glm( left ~ satisfaction_level + last_evaluation + number_project + 
-                average_montly_hours+ time_spend_company + Work_accident + 
-                promotion_last_5years + sales + salary, data =  train, 
-                family = binomial(link = "logit"))
+                      average_montly_hours+ time_spend_company + Work_accident + 
+                      promotion_last_5years + salary.high + salary.low+ salary.medium+
+                      sales.accounting+ sales.hr+ sales.IT+ sales.management+ sales.marketing+
+                      sales.product_mng+ sales.RandD+ sales.sales+ sales.support+ sales.technical,
+                    train, family = binomial(link = "logit"))
 summary(model_logit)
 
 #apply the model_logit on test data to see how the prediction
@@ -73,4 +74,5 @@ confusionMatrix(p_left_40, test$left)
 library(pROC)
 plot(roc(test$left, predicted), col = "blue")
 # the ROC curve is saved with a file named as ROC_logit
+
 
